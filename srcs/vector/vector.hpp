@@ -39,13 +39,34 @@ namespace ft {
 
             explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
             {
-                
-
+                try
+                {
+                    value_type = alloc.allocate(n);
+                }
+                catch(const std::exception& e)
+                {
+                    std::cerr << e.what() << '\n';
+                }
+                for (int i = 0; i < n ; i++)
+                {
+                    alloc.construct(&pointer[i],val);
+                }
             };
 
-            vector(T const & rhs);
-            vector<T>& operator= (vector<T> const & x);
+            vector(const vector& x)
+            {
+                *this = x; 
+            }
+            vector<T>& operator= (vector<T> const & x)
+            {
+                if (this != &x)
+                {
+                    // if vector we wish to copy to is full , empty it first, then copy.
+                    
+                }
+            }
             ~vector();
+            //[]
     };
 
 }
