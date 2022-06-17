@@ -23,26 +23,26 @@ namespace ft {
             // typedef difference_type; //a signed integral type, identical to: iterator_traits<iterator>::difference_type	usually the same as ptrdiff_t
 
         private:
-            T *ptr;
-            size_type size;
-            size_type capacity;
-            size_type max_size;
-            allocator_type alloc;
+            value_type *_value;
+            size_type _size;
+            size_type _capacity;
+            size_type _max_size;
+            allocator_type _alloc;
 
         public:
             explicit vector(const allocator_type& alloc = allocator_type())
             {
-                ptr = 0;
-                size = 0;
-                capacity = 0;
-                max_size = alloc.max_size();
+                _value = 0;
+                _size = 0;
+                _capacity = 0;
+                _max_size = alloc.max_size();
             };
 
             explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
             {
                 try
                 {
-                    value_type = alloc.allocate(n);
+                    this->_value = alloc.allocate(n);
                 }
                 catch(const std::exception& e)
                 {
@@ -52,11 +52,13 @@ namespace ft {
                 {
                     alloc.construct(&pointer[i],val);
                 }
+                this->_size = n;
+                this->_capacity = n;
             };
 
             vector(const vector& x)
             {
-                *this = x; 
+                *this = x;
             }
             vector<T>& operator= (vector<T> const & x)
             {
