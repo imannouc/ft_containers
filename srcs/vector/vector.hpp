@@ -42,7 +42,7 @@ namespace ft {
             {
                 try
                 {
-                    this->_value = alloc.allocate(n);
+                    this->_value = alloc.allocate(n);// 0 2 4 8 16 32...
                 }
                 catch(const std::exception& e)
                 {
@@ -65,10 +65,61 @@ namespace ft {
                 if (this != &x)
                 {
                     // if vector we wish to copy to is full , empty it first, then copy.
+                    if (this->_size)
+                    {
+                        for (int i = 0; i < this->_capacity ; i++)// destroy && deallocate
+                        {
+                            alloc.destroy(&this->_value[i]);
+                        }
+                        // void deallocate (pointer p, size_type n);
+                        alloc.deallocate(this->_value,_capacity);
+                    }
+                    try
+                    {
+                        this->_value = alloc.allocate(x.capacity());
+                    }
+                    catch(const std::exception& e)
+                    {
+                        std::cerr << e.what() << '\n';
+                    }
+                    this->_size = x.size();
+                    this->_capacity = x.capacity();
+                    for (int i = 0; i < this->_size ; i++)
+                    {
+                        alloc.construct(&pointer[i],val);
+                    }
                     
                 }
             }
             ~vector();
+
+            /*
+            Iterators:
+                begin
+                    Return iterator to beginning (public member function )
+                end
+                    Return iterator to end (public member function )
+                rbegin
+                    Return reverse iterator to reverse beginning (public member function )
+                rend
+                    Return reverse iterator to reverse end (public member function )
+            */
+            size_type size() const
+            {
+                return _size;
+            };
+            size_type max_size() const
+            {
+                return _max_size;
+            };
+            size_type capacity() const
+            {
+                return _capacity;
+            };
+            bool empty() const
+            {
+                return (size == 0);
+            };
             //[]
     };
 
