@@ -30,19 +30,19 @@ namespace ft {
             allocator_type _alloc;
 
         public:
-            explicit vector(const allocator_type& alloc = allocator_type())
+            explicit vector(const allocator_type& _alloc = allocator_type())
             {
                 _value = 0;
                 _size = 0;
                 _capacity = 0;
-                _max_size = alloc.max_size();
+                _max_size = _alloc.max_size();
             };
 
-            explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
+            explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& _alloc = allocator_type())
             {
                 try
                 {
-                    this->_value = alloc.allocate(n);// 0 2 4 8 16 32...
+                    this->_value = _alloc.allocate(n);// 0 2 4 8 16 32...
                 }
                 catch(const std::exception& e)
                 {
@@ -50,7 +50,7 @@ namespace ft {
                 }
                 for (int i = 0; i < n ; i++)
                 {
-                    alloc.construct(&pointer[i],val);
+                    _alloc.construct(&pointer[i],val);
                 }
                 this->_size = n;
                 this->_capacity = n;
@@ -69,14 +69,14 @@ namespace ft {
                     {
                         for (int i = 0; i < this->_capacity ; i++)// destroy && deallocate
                         {
-                            alloc.destroy(&this->_value[i]);
+                            _alloc.destroy(&this->_value[i]);
                         }
                         // void deallocate (pointer p, size_type n);
-                        alloc.deallocate(this->_value,_capacity);
+                        _alloc.deallocate(this->_value,_capacity);
                     }
                     try
                     {
-                        this->_value = alloc.allocate(x.capacity());
+                        this->_value = _alloc.allocate(x.capacity());
                     }
                     catch(const std::exception& e)
                     {
@@ -86,7 +86,7 @@ namespace ft {
                     this->_capacity = x.capacity();
                     for (int i = 0; i < this->_size ; i++)
                     {
-                        alloc.construct(&pointer[i],val);
+                        _alloc.construct(&pointer[i],val);
                     }
                     
                 }
@@ -104,6 +104,8 @@ namespace ft {
                 rend
                     Return reverse iterator to reverse end (public member function )
             */
+
+            //               CAPACITY               //
             size_type size() const
             {
                 return _size;
@@ -112,6 +114,10 @@ namespace ft {
             {
                 return _max_size;
             };
+            void resize (size_type n, value_type val = value_type())
+            {
+
+            };
             size_type capacity() const
             {
                 return _capacity;
@@ -119,6 +125,16 @@ namespace ft {
             bool empty() const
             {
                 return (size == 0);
+            };
+            void reserve (size_type n)
+            {
+
+            };
+
+            //               ALLOCATOR               //
+            allocator_type get_allocator() const
+            {
+                return _alloc;
             };
             //[]
     };
