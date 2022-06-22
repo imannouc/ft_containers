@@ -1,20 +1,20 @@
 #ifndef VECTOR_H
 # define VECTOR_H
 
-#include <vector>
 #include <memory>
+
 namespace ft {
 
     template < class T, class Alloc = std::allocator<T> >
     class vector
     {
         public:
-            typedef typename T value_type; //The first template parameter (T)	
-            typedef typename Alloc allocator_type; //The second template parameter (Alloc)	defaults to: allocator<value_type>
-            typedef typename T& reference; //allocator_type::reference	for the default allocator: value_type&
-            typedef typename T& const const_reference; //allocator_type::const_reference	for the default allocator: const value_type&
-            typedef typename T* pointer; //allocator_type::pointer	for the default allocator: value_type*
-            typedef typename T* const const_pointer; //allocator_type::const_pointer	for the default allocator: const value_type*
+            typedef T value_type; //The first template parameter (T)	
+            typedef Alloc allocator_type; //The second template parameter (Alloc)	defaults to: allocator<value_type>
+            typedef T& reference; //allocator_type::reference	for the default allocator: value_type&
+            typedef const T&  const_reference; //allocator_type::const_reference	for the default allocator: const value_type&
+            typedef T* pointer; //allocator_type::pointer	for the default allocator: value_type*
+            typedef const T*  const_pointer; //allocator_type::const_pointer	for the default allocator: const value_type*
             typedef size_t size_type; //an unsigned integral type that can represent any non-negative value of difference_type	usually the same as size_t
             // typedef iterator; //a random access iterator to value_type	convertible to const_iterator
             // typedef const_iterator; //	a random access iterator to const value_type	
@@ -30,16 +30,18 @@ namespace ft {
             allocator_type _alloc;
 
         public:
-            explicit vector(const allocator_type& _alloc = allocator_type())
+            explicit vector(const allocator_type& alloc = allocator_type())
             {
                 _value = 0;
                 _size = 0;
                 _capacity = 0;
-                _max_size = _alloc.max_size();
+                _max_size = alloc.max_size();
+                this->_alloc = alloc;
             };
 
-            explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& _alloc = allocator_type())
+            explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
             {
+                this->_alloc = alloc;
                 try
                 {
                     this->_value = _alloc.allocate(n);// 0 2 4 8 16 32...
@@ -50,10 +52,31 @@ namespace ft {
                 }
                 for (int i = 0; i < n ; i++)
                 {
-                    _alloc.construct(&pointer[i],val);
+                    _alloc.construct(_value + i,val);
                 }
                 this->_size = n;
                 this->_capacity = n;
+            };
+
+            template <class InputIterator>
+            vector (InputIterator first, InputIterator last,
+                const allocator_type& alloc = allocator_type())
+            {
+                this->_alloc = _alloc;
+                try
+                {
+                    this->_value = _alloc.allocate(last - first);
+                }
+                catch(const std::exception& e)
+                {
+                    std::cerr << e.what() << '\n';
+                }
+                for (size_type i = 0 ; i < (last - first) ; i++)
+                {
+                    _alloc.construct(_value + i ,*first);
+                }
+                this->_size = last - first;
+                this->_capacity = last - first;
             };
 
             vector(const vector& x)
@@ -86,12 +109,11 @@ namespace ft {
                     this->_capacity = x.capacity();
                     for (int i = 0; i < this->_size ; i++)
                     {
-                        _alloc.construct(&pointer[i],val);
+                        _alloc.construct(_value + i,x._value + i);
                     }
-                    
                 }
             }
-            ~vector();
+            ~vector(){};
 
             /*
             Iterators:
@@ -124,7 +146,7 @@ namespace ft {
             };
             bool empty() const
             {
-                return (size == 0);
+                return (_size == 0);
             };
             void reserve (size_type n)
             {
@@ -135,6 +157,10 @@ namespace ft {
             allocator_type get_allocator() const
             {
                 return _alloc;
+            };
+            reference operator[] (size_type n)
+            {
+                return (this->_value[n]);
             };
             //[]
     };
