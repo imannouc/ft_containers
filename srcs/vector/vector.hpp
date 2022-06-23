@@ -16,11 +16,11 @@ namespace ft {
             typedef T* pointer; //allocator_type::pointer	for the default allocator: value_type*
             typedef const T*  const_pointer; //allocator_type::const_pointer	for the default allocator: const value_type*
             typedef size_t size_type; //an unsigned integral type that can represent any non-negative value of difference_type	usually the same as size_t
-            // typedef iterator; //a random access iterator to value_type	convertible to const_iterator
-            // typedef const_iterator; //	a random access iterator to const value_type	
-            // typedef reverse_iterator; //	reverse_iterator<iterator>	
-            // typedef const_reverse_iterator; //	reverse_iterator<const_iterator>	
-            // typedef difference_type; //a signed integral type, identical to: iterator_traits<iterator>::difference_type	usually the same as ptrdiff_t
+            typedef typename std::vector<value_type>::iterator iterator; //a random access iterator to value_type	convertible to const_iterator
+            typedef typename std::vector<value_type>::const_iterator const_iterator; //	a random access iterator to const value_type	
+            typedef typename std::vector<value_type>::reverse_iterator reverse_iterator; //	reverse_iterator<iterator>	
+            typedef typename std::vector<value_type>::const_reverse_iterator const_reverse_iterator; //	reverse_iterator<const_iterator>	
+            typedef ptrdiff_t difference_type; //a signed integral type, identical to: iterator_traits<iterator>::difference_type	usually the same as ptrdiff_t
 
         private:
             value_type *_value;
@@ -30,6 +30,7 @@ namespace ft {
             allocator_type _alloc;
 
         public:
+            //default constructor
             explicit vector(const allocator_type& alloc = allocator_type())
             {
                 _value = 0;
@@ -38,7 +39,7 @@ namespace ft {
                 _max_size = alloc.max_size();
                 this->_alloc = alloc;
             };
-
+            //fill constructor
             explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
             {
                 this->_alloc = alloc;
@@ -57,7 +58,7 @@ namespace ft {
                 this->_size = n;
                 this->_capacity = n;
             };
-
+            //range constructor
             template <class InputIterator>
             vector (InputIterator first, InputIterator last,
                 const allocator_type& alloc = allocator_type())
@@ -78,7 +79,7 @@ namespace ft {
                 this->_size = last - first;
                 this->_capacity = last - first;
             };
-
+            //copy constructor
             vector(const vector& x)
             {
                 *this = x;
