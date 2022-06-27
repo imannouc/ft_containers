@@ -72,9 +72,9 @@ int main()
     // std::cout << !vect1.empty() << std::endl;
     // std::cout << vect1.max_size() << std::endl;
 
-    // ft::vector<int> empty;
-    // ft::vector<int> fill(10,69);
-
+    ft::vector<int> empty;
+    ft::vector<int> fill(10,69);
+    //enable_if
 
     // fill = empty;
     // std::cout << fill.size() << std::endl;
