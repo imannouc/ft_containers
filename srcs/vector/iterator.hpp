@@ -21,7 +21,7 @@ class iterator
 };
 
 template<typename Iterator>
-	class iterator_traits{
+class iterator_traits{
 	public:
 		typedef typename Iterator::difference_type difference_type;
 		typedef typename Iterator::value_type value_type;
@@ -30,7 +30,8 @@ template<typename Iterator>
 		typedef typename Iterator::iterator_category iterator_category;
 };
 
-template <class T> class iterator_traits<T*>
+template <class T>
+class iterator_traits<T*>
 {
 	public:
 		typedef std::ptrdiff_t difference_type;
@@ -40,7 +41,8 @@ template <class T> class iterator_traits<T*>
 		typedef std::random_access_iterator_tag iterator_category;
 };
 
-template <class T> class iterator_traits<const T*>
+template <class T>
+class iterator_traits<const T*>
 {
 	public:
 		typedef std::ptrdiff_t difference_type;
