@@ -43,6 +43,7 @@ namespace ft {
             explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
             {
                 this->_alloc = alloc;
+
                 try
                 {
                     this->_value = _alloc.allocate(n);// 0 2 4 8 16 32...
@@ -59,7 +60,7 @@ namespace ft {
                 this->_capacity = n;
             };
             //range constructor
-            template <class InputIterator>
+            template <class InputIterator>// default is ft::vector<T>::iterator
             vector (InputIterator first, InputIterator last,
                 const allocator_type& alloc = allocator_type())
             {
@@ -113,6 +114,7 @@ namespace ft {
                         _alloc.construct(_value + i,x._value + i);
                     }
                 }
+                return *this;
             }
             ~vector(){};
 
