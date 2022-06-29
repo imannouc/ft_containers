@@ -4,39 +4,7 @@
 #include "vector.hpp"
 #include <iterator>
 
-class Myiterator : std::iterator<std::random_access_iterator_tag,int>
-{
-    private:
-        int *p;
-    public:
-        Myiterator(int *x) : p(x){};
-        Myiterator(const Myiterator & rhs) : p(rhs.p) {};
-        Myiterator & operator++(){
-            ++p;
-            return (*this);
-        };
-        Myiterator operator++(int){
-            Myiterator tmp = *this;
-            ++p;
-            return tmp;
-        }
-        int & operator*()
-        {
-            return (*p);
-        };
-        bool operator!=(const Myiterator & rhs)
-        {
-            return (p != rhs.p);
-        };
-        bool operator==(const Myiterator & rhs)
-        {
-            return (p == rhs.p);
-        };
-        
-        ~Myiterator(){};
-};
-
-template <class T>
+çtemplate <class T>
 void    print(T toprint)
 {
     std::cout << toprint << std::endl;

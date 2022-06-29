@@ -68,11 +68,11 @@ namespace ft {
 	private:
 		iterator_type _p;
 
-	public:
+	public:	
 		
 		/* Member functions */
 		MyIterator() : _p(0) {};
-		MyIterator(iterator_type it)
+		explicit MyIterator(iterator_type it)
 		{
 			this->_p = it;
 		};
@@ -83,69 +83,115 @@ namespace ft {
 			this->_p = it.base();
 		};
 
+		~MyIterator() {};
+
 		iterator_type base() const
 		{
 			return _p;
 		};
-		~MyIterator();
-
 
 		reference operator*() const
 		{
-			return *this->_p;
+			return *(this->_p);
 		};
+
 		MyIterator operator+ (difference_type n) const
 		{
-			return this->_p + n;
+			return MyIterator(this->_p + n);
 		};
-		MyIterator& operator++();
-		MyIterator  operator++(int);
-		MyIterator& operator+= (difference_type n);
-		MyIterator operator- (difference_type n) const;
-		MyIterator& operator--();
-		MyIterator  operator--(int);
-		MyIterator& operator-= (difference_type n);
-		pointer operator->() const;
-		reference operator[] (difference_type n) const;
-
-
-
-
-
+		MyIterator& operator++()
+		{
+			_p++;
+			return (*this);
+		};
+		MyIterator  operator++(int)
+		{
+			MyIterator tmp = *this;
+			++(*this);
+			return tmp;
+		};
+		MyIterator& operator+= (difference_type n)
+		{
+			this->_p += n;
+			return (*this);
+		};
+		MyIterator operator- (difference_type n) const
+		{
+			return MyIterator(this->_p - n);
+		};
+		MyIterator& operator--()
+		{
+			_p--;
+			return (*this);
+		};
+		MyIterator  operator--(int)
+		{
+			MyIterator tmp = *this;
+			--(*this);
+			return tmp;
+		};
+		MyIterator& operator-= (difference_type n)
+		{
+			this->_p -= n;
+			return (*this);
+		};
+		pointer operator->() const
+		{
+			return (&(operator*()));
+		};
+		reference operator[] (difference_type n) const
+		{
+			return (this->_p[n]);
+		};
 	};
 
-		/* Non-member function overloads */
-		// relational ops , + , -	
-		template <class Iterator>
-		bool operator== (const MyIterator<Iterator>& lhs, const MyIterator<Iterator>& rhs)
-		{
-			return lhs == rhs;
-		}	
-		template <class Iterator>
-		bool operator!= (const MyIterator<Iterator>& lhs, const MyIterator<Iterator>& rhs)
-		{
-			return !(lhs == rhs)
-		}	
-		template <class Iterator>
-		bool operator<  (const MyIterator<Iterator>& lhs, const MyIterator<Iterator>& rhs)
-		{
-			return (lhs < rhs)
-		}	
-		template <class Iterator>
-		bool operator<= (const MyIterator<Iterator>& lhs, const MyIterator<Iterator>& rhs)
-		{
-			return !(lhs > rhs)
-		}	
-		template <class Iterator>
-		bool operator>  (const MyIterator<Iterator>& lhs, const MyIterator<Iterator>& rhs)
-		{
-			return (lhs > rhs)
-		}	
-		template <class Iterator>
-		bool operator>= (const MyIterator<Iterator>& lhs, const MyIterator<Iterator>& rhs)
-		{
-			return !(lhs < ths)
-		}
+	/* Non-member function overloads */
+	// relational ops , + , -	
+	template <class Iterator>
+	bool operator== (const MyIterator<Iterator>& lhs, const MyIterator<Iterator>& rhs)
+	{
+		return lhs.base() == rhs.base();
+	}	
+	template <class Iterator>
+	bool operator!= (const MyIterator<Iterator>& lhs, const MyIterator<Iterator>& rhs)
+	{
+		return !(lhs.base() == rhs.base());
+	}	
+	template <class Iterator>
+	bool operator<  (const MyIterator<Iterator>& lhs, const MyIterator<Iterator>& rhs)
+	{
+		return (lhs.base() < rhs.base());
+	}	
+	template <class Iterator>
+	bool operator<= (const MyIterator<Iterator>& lhs, const MyIterator<Iterator>& rhs)
+	{
+		return !(lhs.base() > rhs.base());
+	}	
+	template <class Iterator>
+	bool operator>  (const MyIterator<Iterator>& lhs, const MyIterator<Iterator>& rhs)
+	{
+		return (lhs.base() > rhs.base());
+	}	
+	template <class Iterator>
+	bool operator>= (const MyIterator<Iterator>& lhs, const MyIterator<Iterator>& rhs)
+	{
+		return !(lhs.base() < rhs.base());
+	}
 
+	template <class Iterator>
+  	MyIterator<Iterator> operator+ (typename MyIterator<Iterator>::difference_type n,
+	  	const MyIterator<Iterator>& it)
+	{
+		return (it.operator+(n));
+	};
+
+	template <class Iterator>
+	typename MyIterator<Iterator>::difference_type operator- (
+		const MyIterator<Iterator>& lhs,
+		const MyIterator<Iterator>& rhs)
+	{
+		return (lhs.base() - rhs.base());
+	};
 }
+
 #endif

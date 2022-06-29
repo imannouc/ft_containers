@@ -17,7 +17,7 @@ namespace ft {
             typedef T* pointer; //allocator_type::pointer	for the default allocator: value_type*
             typedef const T*  const_pointer; //allocator_type::const_pointer	for the default allocator: const value_type*
             typedef size_t size_type; //an unsigned integral type that can represent any non-negative value of difference_type	usually the same as size_t
-            // typedef typename Myiterator<pointer> iterator; //a random access iterator to value_type	convertible to const_iterator
+            typedef Myiterator<pointer> iterator; //a random access iterator to value_type	convertible to const_iterator
             // typedef typename std::vector<value_type>::const_iterator const_iterator; //	a random access iterator to const value_type	
             // typedef typename std::vector<value_type>::reverse_iterator reverse_iterator; //	reverse_iterator<iterator>	
             // typedef typename std::vector<value_type>::const_reverse_iterator const_reverse_iterator; //	reverse_iterator<const_iterator>	
