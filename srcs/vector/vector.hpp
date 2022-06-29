@@ -17,17 +17,16 @@ namespace ft {
             typedef T* pointer; //allocator_type::pointer	for the default allocator: value_type*
             typedef const T*  const_pointer; //allocator_type::const_pointer	for the default allocator: const value_type*
             typedef size_t size_type; //an unsigned integral type that can represent any non-negative value of difference_type	usually the same as size_t
-            typedef Myiterator<pointer> iterator; //a random access iterator to value_type	convertible to const_iterator
-            // typedef typename std::vector<value_type>::const_iterator const_iterator; //	a random access iterator to const value_type	
+            typedef MyIterator<pointer> iterator; //a random access iterator to value_type	convertible to const_iterator
+            typedef MyIterator<const_pointer> const_iterator; //	a random access iterator to const value_type	
             // typedef typename std::vector<value_type>::reverse_iterator reverse_iterator; //	reverse_iterator<iterator>	
             // typedef typename std::vector<value_type>::const_reverse_iterator const_reverse_iterator; //	reverse_iterator<const_iterator>	
             typedef ptrdiff_t difference_type; //a signed integral type, identical to: iterator_traits<iterator>::difference_type	usually the same as ptrdiff_t
 
         private:
-            value_type *_value;// pointer type instead.
+            pointer _value;// pointer type instead.
             size_type _size;
             size_type _capacity;
-            size_type _max_size;
             allocator_type _alloc;
 
         public:
@@ -37,7 +36,6 @@ namespace ft {
                 _value = 0;
                 _size = 0;
                 _capacity = 0;
-                _max_size = alloc.max_size();
                 this->_alloc = alloc;
             };
             //fill constructor
@@ -130,6 +128,10 @@ namespace ft {
                 rend
                     Return reverse iterator to reverse end (public member function )
             */
+            iterator begin() { return (iterator(_value));};
+            const_iterator begin() const { return (const_iterator(_value)) };
+            iterator end() { return (iterator(_value + _size))};
+            const_iterator end() const { return (const_iterator(_value + _size))};
 
             //               CAPACITY               //
             size_type size() const
@@ -138,7 +140,7 @@ namespace ft {
             };
             size_type max_size() const
             {
-                return _max_size;
+                return this->_alloc.max_size();
             };
             void resize (size_type n, value_type val = value_type())
             {
@@ -157,16 +159,14 @@ namespace ft {
 
             };
 
-            //               ALLOCATOR               //
             allocator_type get_allocator() const
             {
                 return _alloc;
             };
             reference operator[] (size_type n)
             {
-                return (this->_value[n]);
+                return (_value[n]);
             };
-            //[]
     };
 
 }

@@ -58,6 +58,7 @@ namespace ft {
 	template <class T>// ft::vector<T>::iterator
 	class MyIterator : iterator<std::random_access_iterator_tag,T>
 	{
+	public:
 		typedef T												iterator_type;//Iterator's type
 		typedef typename iterator_traits<T>::iterator_category	iterator_category;
 		typedef typename iterator_traits<T>::value_type 		value_type;
@@ -101,7 +102,7 @@ namespace ft {
 		};
 		MyIterator& operator++()
 		{
-			_p++;
+			++_p;
 			return (*this);
 		};
 		MyIterator  operator++(int)
@@ -121,7 +122,7 @@ namespace ft {
 		};
 		MyIterator& operator--()
 		{
-			_p--;
+			--_p;
 			return (*this);
 		};
 		MyIterator  operator--(int)
@@ -141,7 +142,7 @@ namespace ft {
 		};
 		reference operator[] (difference_type n) const
 		{
-			return (this->_p[n]);
+			return (_p[n]);
 		};
 	};
 

@@ -20,11 +20,15 @@ int main () {
 	std::cout << *iter1 << std::endl;
 	std::cout << *iter2 << std::endl;
 
-	for (ft::MyIterator<int *> it0(v) ; it0 != myit2; it0++)
-		std::cout << *it0 << std::endl;
-
+	// for (ft::MyIterator<int *> it0(v) ; it0 != myit2; ++it0)
+		std::cout << "myit " << *(myit) << std::endl;
+		std::cout << "++myit " << *(++myit) << std::endl;
+		std::cout << "--myit " << *(--myit) << std::endl;
+		std::cout << "myit++ " << *(myit++) << std::endl;
+		std::cout << "myit-- " << *(myit--) << std::endl;
+		std::cout << "myit " << *(myit) << std::endl;
 	std::cout << *myit << std::endl;
-	std::cout << *myit2 << std::endl;
+	std::cout << myit[(myit2 - (myit2 - 5))] << std::endl;
 
   return 0;
 }
