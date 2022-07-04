@@ -142,13 +142,7 @@ namespace ft {
                         _alloc.destroy(_value + i);
                     _size = n;
                 }
-                else if (n > _size && n < _capacity)
-                {
-                    for (int i = _size ; i < n ; i++)
-                        _alloc.construct(_value + i,val);
-                    _size = n;
-                }
-                else if (n > _capacity)
+                else if (n > _size)
                 {
                     reserve(n);
                     for (int i = _size ; i < n ; i++)

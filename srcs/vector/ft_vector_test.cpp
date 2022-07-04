@@ -35,6 +35,19 @@ int main(int ac, char **av)
 	for (int i = 0; i < vec.size(); i++)
 		std::cout << vec[i] << ' ';
 	std::cout << '\n';
+
+	vec.resize(0);
+	std::cout << "resize 0:\n";
+	for (int i = 0; i < vec.size(); i++)
+		std::cout << vec[i] << ' ';
+	std::cout << '\n';
+
+	vec.resize(1,42);
+	std::cout << "resize 1:\n";
+	for (int i = 0; i < vec.size(); i++)
+		std::cout << vec[i] << ' ';
+	std::cout << '\n';
+
 	std::cout << "size : " << vec.size() << " capacity :" << vec.capacity() << "\n";
 
 	// ft::vector<int> vec(10,9);
