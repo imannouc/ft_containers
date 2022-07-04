@@ -48,16 +48,15 @@ namespace ft {
                 try
                 {
                     if (_size <= this->max_size())
-                        this->_value = _alloc.allocate(n);// 0 2 4 8 16 32...
+                        this->_value = _alloc.allocate(n);
+                        std::cout << "allocated " << n << " elements \n";
                 }
                 catch(const std::exception& e)
                 {
                     std::cerr << e.what() << '\n';
                 }
                 for (int i = 0; i < n ; i++)
-                {
                     _alloc.construct(_value + i,val);
-                }
                 this->_size = n;
                 this->_capacity = n;
             };
@@ -102,6 +101,7 @@ namespace ft {
                         _alloc.destroy(_value + i);
                     }
                     _alloc.deallocate(this->_value,_capacity);
+                    //_size = 0;
                 }
                 try
                 {
@@ -137,15 +137,46 @@ namespace ft {
             void resize (size_type n, value_type val = value_type())
             {
                 if (n < _size)
-                {//If n is smaller than the current container size, the content is reduced to its first n elements, removing those beyond (and destroying them).
+                {
                     for (int i = n ; i < _size ; i++)
                         _alloc.destroy(_value + i);
+                    _size = n;
                 }
-
+                else if (n > _size && n < _capacity)
+                {
+                    for (int i = _size ; i < n ; i++)
+                        _alloc.construct(_value + i,val);
+                    _size = n;
+                }
+                else if (n > _capacity)
+                {
+                    reserve(n);
+                    for (int i = _size ; i < n ; i++)
+                        _alloc.construct(_value + i,val);
+                    _size = n;
+                }
             };
             size_type capacity() const { return _capacity; };
             bool empty() const { return (_size == 0); };
-            // void reserve (size_type n);
+            void reserve (size_type n)
+            {
+                if (n > _capacity) 
+                {
+                    if ( _capacity * 2 > n )
+                        n = _capacity * 2;
+                    if (n > max_size())
+                        throw(std::length_error("reserve : length error."));
+                    pointer newValue;
+                    newValue = _alloc.allocate(n);
+                    for (int i = 0; i < this->_size ; i++)
+                        _alloc.construct(newValue + i, this->_value[i]);
+                    for (int i = 0; i < this->_capacity ; i++)
+                        _alloc.destroy(_value + i);
+                    _alloc.deallocate(this->_value,_capacity);
+                    this->_value = newValue;
+                    this->_capacity = n;
+                }
+            };
 
 
                             /* ELEMENT ACCESS */

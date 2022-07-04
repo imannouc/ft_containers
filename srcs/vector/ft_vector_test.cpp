@@ -1,20 +1,51 @@
 #include <vector>
-// #include "vector.hpp"
+#include "vector.hpp"
 #include <cstring>
 #include <iostream>
 
 int main(int ac, char **av) 
 {
-	std::vector<int> vec(10,9);
+	ft::vector<int> vec(10,9);
 
-	std::cout << vec.capacity() << std::endl;
-	vec.push_back(11);
-	std::cout << vec.capacity() << std::endl;
-	vec.resize(10);
-	std::cout << vec.capacity() << std::endl;
-	std::cout << vec.size() << std::endl;
+	for (int i = 0; i < vec.size(); i++)
+		std::cout << vec[i] << ' ';
+	std::cout << '\n';
+	vec.resize(5);
+	std::cout << "resize 5 :\n";
+	for (int i = 0; i < vec.size(); i++)
+		std::cout << vec[i] << ' ';
+	std::cout << '\n';
+	std::cout << "size : " << vec.size() << " capacity :" << vec.capacity() << "\n";
 
-	std::cout << vec[10] << std::endl;
+	vec.resize(18,100);
+	std::cout << "resize 18,100 :\n";
+
+	for (int i = 0; i < vec.size(); i++)
+		std::cout << vec[i] << ' ';
+	std::cout << '\n';
+
+	vec.resize(12);
+	std::cout << "resize 12 :\n";
+
+	for (int i = 0; i < vec.size(); i++)
+		std::cout << vec[i] << ' ';
+	std::cout << '\n';
+	vec.resize(19);
+	std::cout << "resize 19:\n";
+	for (int i = 0; i < vec.size(); i++)
+		std::cout << vec[i] << ' ';
+	std::cout << '\n';
+	std::cout << "size : " << vec.size() << " capacity :" << vec.capacity() << "\n";
+
+	// ft::vector<int> vec(10,9);
+
+	// std::cout << "capacity "<< vec.capacity() << std::endl;
+	// vec.reserve(20);
+	// std::cout << "capacity "<<  vec.capacity() << std::endl;
+	// std::cout << "size "<< vec.size() << std::endl;
+	// vec.reserve(30);
+	// std::cout << "capacity "<< vec.capacity() << std::endl;
+	// std::cout << vec[9] << std::endl;
 }
 
 
