@@ -5,12 +5,19 @@
 
 int main(int ac, char **av) 
 {
-	ft::vector<int> vec(10,9);
+	ft::vector<int> vec;
 
+	for ( int i = 0; i< 10; i++)
+	{
+		std::cout << "vec size is "<< vec.size() << std::endl;
+		std::cout << "vec capacity is "<< vec.capacity() << ' ';
+		vec.push_back(9);
+		std::cout << "in loop\n";
+	}	
+	vec.resize(5);
 	for (int i = 0; i < vec.size(); i++)
 		std::cout << vec[i] << ' ';
 	std::cout << '\n';
-	vec.resize(5);
 	std::cout << "resize 5 :\n";
 	for (int i = 0; i < vec.size(); i++)
 		std::cout << vec[i] << ' ';

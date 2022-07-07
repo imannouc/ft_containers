@@ -154,7 +154,7 @@ namespace ft {
             bool empty() const { return (_size == 0); };
             void reserve (size_type n)
             {
-                if (n > _capacity) 
+                if (n >= _capacity) 
                 {
                     if ( _capacity * 2 > n )
                         n = _capacity * 2;
@@ -194,7 +194,16 @@ namespace ft {
 
 
                             /* MODIFIERS */
-
+            void    push_back(const value_type& val)
+            {
+                if (_size + 1 > _capacity)
+                {
+                    reserve( _size + 1);
+                }
+                _alloc.construct(_value + _size , val);
+                _size++;
+            };
+    
                             /* ALLOCATOR */
             allocator_type get_allocator() const { return _alloc; };
     };
