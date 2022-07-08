@@ -203,12 +203,16 @@ namespace ft {
                 _alloc.construct(_value + _size , val);
                 _size++;
             };
-            void pop_back()
+            void    pop_back()
             {
-                _alloc.destroy(_value + _size);
+                _alloc.destroy(_value + _size - 1);
                 _size--;
             };
-            
+            void    clear()
+            {
+                for (size_type i = 0 ; i < _size ; i++)
+                    pop_back();
+            };
                             /* ALLOCATOR */
             allocator_type get_allocator() const { return _alloc; };
     };
