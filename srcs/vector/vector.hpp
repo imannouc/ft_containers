@@ -96,12 +96,10 @@ namespace ft {
                 // if vector we wish to copy to is full , empty it first, then copy.
                 if (this->_size)
                 {
-                    for (int i = 0; i < this->_capacity ; i++)// destroy && deallocate
-                    {
+                    for (int i = 0; i < this->_capacity ; i++)
                         _alloc.destroy(_value + i);
-                    }
                     _alloc.deallocate(this->_value,_capacity);
-                    //_size = 0;
+                    _size = 0;
                 }
                 try
                 {
@@ -119,7 +117,8 @@ namespace ft {
                 }
                 return *this;
             }
-            ~vector(){
+            ~vector()
+            {
                 if (_size > 0)
                     for (size_type i = 0; i < _size; i++)
                         _alloc.destroy(_value + i);
@@ -244,6 +243,24 @@ namespace ft {
             };
             iterator erase (iterator first, iterator last)
             {
+                difference_type index = first - begin();
+                size_type len = 0;
+                if (last - first <= 0 || index < 0)
+                    throw std::out_of_range("out_of_range");
+                for (size_type i = 0, j = 0 ; i < _size ; i++)
+                {
+                    if (first.base() == _value + i)
+                    {
+                        for ( ; first != last ; first++)
+                        {
+                            _alloc.destroy(this->_value + i++);
+                            len++;
+                        }
+                    }
+                    _alloc.construct(this->_value + j++, this->_value[i]);
+                }
+                _size -= len;
+                return (iterator(_value + index));
             };
             void swap(vector &v) {
                 std::swap(this->_data, v._data);

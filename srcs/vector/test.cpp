@@ -4,16 +4,15 @@
 
 int main ()
 {
-    std::vector<int> myvector;
+    ft::vector<int> myvector;
 
     for (int i=1; i<=10; i++) myvector.push_back(i);
     // myvector.erase(myvector.begin() + 29);
-    for (int i = 0 ; i < myvector.size() ; i++)
+    for (int i = 1 ; i < myvector.size() ; i++)
     {
 
         std::cout << " size is " << myvector.size() << '\n';
-        std::cout << *myvector.erase (myvector.begin() + i) << '\n';
-        i--;
+        std::cout << *myvector.erase (myvector.begin() , myvector.begin() + i) << '\n';
         for (unsigned i=0; i<myvector.size(); ++i)
           std::cout << ' ' << myvector[i];
 
