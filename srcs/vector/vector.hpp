@@ -120,7 +120,11 @@ namespace ft {
                 return *this;
             }
             ~vector(){
-                // for (size_type i = 0 ; i < _size ; i++)
+                if (_size > 0)
+                    for (size_type i = 0; i < _size; i++)
+                        _alloc.destroy(_value + i);
+                if (_capacity > 0)
+                    _alloc.deallocate(_value, _capacity);
             };
 
                             /* ITERATORS */
