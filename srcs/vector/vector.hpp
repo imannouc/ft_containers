@@ -119,7 +119,9 @@ namespace ft {
                 }
                 return *this;
             }
-            ~vector(){};
+            ~vector(){
+                // for (size_type i = 0 ; i < _size ; i++)
+            };
 
                             /* ITERATORS */
             iterator begin() { return (iterator(_value)); };
@@ -213,6 +215,40 @@ namespace ft {
                 for (size_type i = 0 ; i < _size ; i++)
                     pop_back();
             };
+            iterator erase (iterator position)
+            {
+                difference_type index = position - begin();
+                if (index < 0)
+                    throw(std::out_of_range("erase : Out of range."));
+                if (position + 1 == end())
+                {
+                    pop_back();
+                    return end();
+                }
+                else
+                {
+                    for (size_type i = 0, j = 0 ; i < _size ; i++)
+                    {
+                        if (position.base() != _value + i)
+                            _alloc.construct(this->_value + j++, this->_value[i]);
+                        else
+                            _alloc.destroy(this->_value + i);
+                    }
+                    _size--;
+                    return (iterator(_value + index));
+                }
+            };
+            iterator erase (iterator first, iterator last)
+            {
+            };
+            void swap(vector &v) {
+                std::swap(this->_data, v._data);
+                std::swap(this->_size, v._size);
+                std::swap(this->_capacity, v._capacity);
+                std::swap(this->_alloc, v._alloc);
+            }
+
+
                             /* ALLOCATOR */
             allocator_type get_allocator() const { return _alloc; };
     };
