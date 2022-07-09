@@ -76,9 +76,7 @@ namespace ft {
                     std::cerr << e.what() << '\n';
                 }
                 for (size_type i = 0 ; i < (last - first) ; i++)
-                {
                     _alloc.construct(_value + i ,*first);
-                }
                 this->_size = last - first;
                 this->_capacity = last - first;
             };
@@ -91,7 +89,7 @@ namespace ft {
             vector& operator= (vector const & x)
             {
                 std::cout << " operator = CALLED " << std::endl;
-                if (this != &x)
+                if (this == &x)
                     return *this;
                 // if vector we wish to copy to is full , empty it first, then copy.
                 if (this->_size)
@@ -112,9 +110,7 @@ namespace ft {
                 this->_size = x.size();
                 this->_capacity = x.capacity();
                 for (int i = 0; i < this->_size ; i++)
-                {
                     _alloc.construct(_value + i,*(x._value + i));
-                }
                 return *this;
             }
             ~vector()
@@ -199,6 +195,17 @@ namespace ft {
 
 
                             /* MODIFIERS */
+            template <class InputIterator>
+            void assign (InputIterator first, InputIterator last)
+            {
+                vector tmp(first,last);
+                *this = tmp;
+            };
+            void assign (size_type n, const value_type& val)
+            {
+                vector tmp(n, val);
+                *this = tmp;
+            };
             void    push_back(const value_type& val)
             {
                 if (_size + 1 > _capacity)
