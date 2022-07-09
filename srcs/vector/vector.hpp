@@ -155,7 +155,7 @@ namespace ft {
             bool empty() const { return (_size == 0); };
             void reserve (size_type n)
             {
-                if (n >= _capacity) 
+                if (n > _capacity) 
                 {
                     if ( _capacity * 2 > n )
                         n = _capacity * 2;
@@ -208,10 +208,7 @@ namespace ft {
             };
             void    push_back(const value_type& val)
             {
-                if (_size + 1 > _capacity)
-                {
-                    reserve( _size + 1);
-                }
+                reserve( _size + 1);
                 _alloc.construct(_value + _size , val);
                 _size++;
             };
@@ -225,6 +222,32 @@ namespace ft {
                 for (size_type i = 0 ; i < _size ; i++)
                     pop_back();
             };
+
+            iterator insert (iterator position, const value_type& val)
+            {
+                difference_type index = position - begin();
+
+                if (index < 0)
+                    throw(std::out_of_range("insert : Out of range."));
+                reserve(_size + 1);
+                for (size_type i = _size + 1; i >= 0 ; i--)
+                {
+                    if (i == index)
+                    {
+                        _alloc.construct(_value + i , val);
+                        break;
+                    }
+                    _alloc.construct(_value + i , _value[i - 1]);
+                }
+                _size++;
+                return (iterator(_value + index));
+            };
+            
+            void insert (iterator position, size_type n, const value_type& val);
+            
+            template <class InputIterator>
+            void insert (iterator position, InputIterator first, InputIterator last);
+
             iterator erase (iterator position)
             {
                 difference_type index = position - begin();
