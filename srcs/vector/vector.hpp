@@ -20,8 +20,8 @@ namespace ft {
             typedef size_t size_type; //an unsigned integral type that can represent any non-negative value of difference_type	usually the same as size_t
             typedef MyIterator<pointer> iterator; //a random access iterator to value_type	convertible to const_iterator
             typedef MyIterator<const_pointer> const_iterator; //	a random access iterator to const value_type	
-            // typedef typename std::vector<value_type>::reverse_iterator reverse_iterator; //	reverse_iterator<iterator>	
-            // typedef typename std::vector<value_type>::const_reverse_iterator const_reverse_iterator; //	reverse_iterator<const_iterator>	
+            typedef ft::reverse_iterator<iterator> reverse_iterator; //	reverse_iterator<iterator>	
+            typedef ft::reverse_iterator<const_iterator> const_reverse_iterator; //	reverse_iterator<const_iterator>	
             typedef ptrdiff_t difference_type; //a signed integral type, identical to: iterator_traits<iterator>::difference_type	usually the same as ptrdiff_t
 
         private:
@@ -127,10 +127,10 @@ namespace ft {
             const_iterator begin() const { return (const_iterator(_value)); };
             iterator end() { return (iterator(_value + _size)); };
             const_iterator end() const { return (const_iterator(_value + _size)); };
-            // reverse_iterator rbegin();
-            // const_reverse_iterator rbegin() const;
-            // reverse_iterator rend();
-            // const_reverse_iterator rend() const;
+            reverse_iterator rbegin() { return reverse_iterator(iterator(_value + _size - 1)); };
+            const_reverse_iterator rbegin() const { return const_reverse_iterator(iterator(_value + size - 1)); };
+            reverse_iterator rend() { return reverse_iterator(iterator(_value - 1));};
+            const_reverse_iterator rend() const { return reverse_iterator(iterator(_value - 1)); };
             
                             /* CAPACITY */
             size_type size() const { return _size; };
