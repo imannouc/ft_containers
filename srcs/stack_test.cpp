@@ -4,7 +4,7 @@
 #include "stack.hpp"
 int main ()
 {
-  ft::stack<int> mystack;
+  std::stack<int> mystack;
 
   for (int i=0; i<5; ++i) mystack.push(i);
 

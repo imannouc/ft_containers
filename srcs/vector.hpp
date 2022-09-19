@@ -26,20 +26,21 @@ namespace ft {
 
         private:
             pointer _value;// pointer type instead.
-            size_type _size;
+            size_type _size = 0;
             size_type _capacity;
             allocator_type _alloc;
 
         public:
             //default constructor
-            explicit vector(const allocator_type& alloc = allocator_type())
-            {
-                std::cout << " DEFAULT constructor CALLED " << std::endl;
-                _value = 0;
-                _size = 0;
-                _capacity = 0;
-                this->_alloc = alloc;
-            };
+            explicit vector(const allocator_type& alloc = allocator_type()) : _value(0), _size(0),_capacity(0),_alloc(alloc) {};
+            // {
+            //     std::cout << " DEFAULT constructor CALLED " << std::endl;
+            //     _value = 0;
+            //     _size = 0;
+            //     std::cout << "\n current size : " << _size << '\n'; 
+            //     _capacity = 0;
+            //     this->_alloc = alloc;
+            // };
             //fill constructor¸¸¸
             explicit vector(int n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
             {
