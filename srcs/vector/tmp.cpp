@@ -4,8 +4,8 @@
 
 int main ()
 {
-  std::vector<int> myvector (3,100);
-  std::vector<int>::iterator it;
+  ft::vector<int> myvector (3,100);
+  ft::vector<int>::iterator it;
 
   it = myvector.begin();
   it = myvector.insert ( myvector.begin() , 200 );
@@ -20,7 +20,7 @@ int main ()
 
   it = myvector.insert ( myvector.end() - 3, 20 );
 
-//   myvector.insert (it,2,300);
+  myvector.insert(it,2,300);
 
   // "it" no longer valid, get a new one:
 //   it = myvector.begin();

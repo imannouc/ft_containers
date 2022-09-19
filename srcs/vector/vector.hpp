@@ -60,7 +60,7 @@ namespace ft {
                 this->_size = n;
                 this->_capacity = n;
             };
-            //range constructor
+            // range constructor
             template <class InputIterator>
             vector (InputIterator first, InputIterator last,
                 const allocator_type& alloc = allocator_type())
@@ -75,8 +75,8 @@ namespace ft {
                 {
                     std::cerr << e.what() << '\n';
                 }
-                for (size_type i = 0 ; i < (last - first) ; i++)
-                    _alloc.construct(_value + i ,*first);
+                for (;last != first ; first++)
+                    _alloc.construct(_value++ ,*first);
                 this->_size = last - first;
                 this->_capacity = last - first;
             };
@@ -192,7 +192,7 @@ namespace ft {
             const_reference front() const { return (_value[0]); };
             reference back() { return (_value[_size - 1]); };
             const_reference back() const { return (_value[_size - 1]); };
-
+            // &_value[0];
 
                             /* MODIFIERS */
             template <class InputIterator>
@@ -230,23 +230,62 @@ namespace ft {
                 if (index < 0)
                     throw(std::out_of_range("insert : Out of range."));
                 reserve(_size + 1);
-                for (size_type i = _size + 1; i >= 0 ; i--)
+                for (size_type i = _size + 1; i  >= 0 ; i--)
                 {
                     if (i == index)
                     {
                         _alloc.construct(_value + i , val);
                         break;
                     }
+                    // std::cout << i << '|' << std::endl;
                     _alloc.construct(_value + i , _value[i - 1]);
                 }
                 _size++;
                 return (iterator(_value + index));
             };
             
-            void insert (iterator position, size_type n, const value_type& val);
+            void insert (iterator position, size_type n, const value_type& val)
+            {
+                difference_type index = position - begin();
+
+                if (index < 0)
+                    throw(std::out_of_range("insert : Out of range."));
+                reserve(_size + n);
+                for (size_t i = _size + n ; i >= 0; i--)
+                {
+                    if (i == index + n - 1)
+                    {
+                        for (size_t j = index; j <= index + n - 1; j++)
+                            _alloc.construct(_value + j , val);
+                        break;
+                    }
+                    _alloc.construct(_value + i , _value[i - n]);
+                }
+                _size += n;
+            };
             
             template <class InputIterator>
-            void insert (iterator position, InputIterator first, InputIterator last);
+            void insert (iterator position, InputIterator first, InputIterator last)
+            {
+                difference_type index = position - begin();
+                difference_type n = last - first;
+
+                std::cout << "TEST TEST \n";
+                if (index < 0 || index > _size)
+                    throw(std::out_of_range("insert : Out of range."));
+                reserve(_size + n);
+                for (size_t i = _size + n ; i >= 0; i--)
+                {
+                    if (i == index + n)
+                    {
+                        for (size_t j = index; first != last && j <= index + n - 1; j++, first++)
+                            _alloc.construct(_value + j , *first);
+                        break;
+                    }
+                    _alloc.construct(_value + i , _value[i - n]);
+                }
+                _size += n;
+            };
 
             iterator erase (iterator position)
             {
