@@ -2,9 +2,13 @@
 #include <iostream>       // std::cout
 #include <stack>          // std::stack
 #include "stack.hpp"
+
 int main ()
 {
-  std::stack<int> mystack;
+  ft::stack<int> mystack;
+  int number = 9090;
+  
+
 
   for (int i=0; i<5; ++i) mystack.push(i);
 
