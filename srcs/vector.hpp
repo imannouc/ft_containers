@@ -67,19 +67,20 @@ namespace ft {
                 const allocator_type& alloc = allocator_type())
             {
                 std::cout << " RANGE constructor CALLED " << std::endl;
+                difference_type diff = last - first;
                 this->_alloc = alloc;
                 try
                 {
-                    this->_value = _alloc.allocate(last - first);
+                    this->_value = _alloc.allocate(diff);
                 }
                 catch(const std::exception& e)
                 {
                     std::cerr << e.what() << '\n';
                 }
-                for (;last != first ; first++)
-                    _alloc.construct(_value++ ,*first);
-                this->_size = last - first;
-                this->_capacity = last - first;
+                for (size_type i = 0 ;last != first ; first++,i++)
+                    _alloc.construct(_value + i ,*first);
+                this->_size = diff;
+                this->_capacity = diff;
             };
             //copy constructor
             vector(const vector& x)
