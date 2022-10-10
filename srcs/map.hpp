@@ -6,12 +6,7 @@
 
 namespace ft {
 
-    template<
-                class Key,
-                class T,
-                class Compare = std::less<Key>,
-                class Allocator = std::allocator<std::pair<const Key, T> >
-            >
+    template< class Key,class T,class Compare = std::less<Key>, class Allocator = std::allocator<std::pair<const Key, T> > >
     class map {
         public:
             typedef std::pair<const Key, T> value_type;
@@ -19,6 +14,23 @@ namespace ft {
             typedef T                       mapped_type;// mapped_type	The second template parameter (T)	
             typedef Compare                 key_compare;// key_compare	The third template parameter (Compare)	defaults to: less<key_type>
             // value_compare	Nested function class to compare elements	see value_comp
+            template <class Key, class T, class Compare, class Alloc>
+            class value_compare : public std::binary_function<value_type, value_type, bool>
+            {   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
+                friend class map;
+                protected:
+                    Compare comp;
+                    value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
+                public:
+                    typedef bool result_type;
+                    typedef value_type first_argument_type;
+                    typedef value_type second_argument_type;
+                    bool operator() (const value_type& x, const value_type& y) const
+                    {
+                        return comp(x.first, y.first);
+                    }
+            };
+
             typedef Allocator   allocator_type;// allocator_type	The fourth template parameter (Alloc)	defaults to: allocator<value_type>
             typedef allocator_type::reference reference;// reference	allocator_type::reference	for the default allocator: value_type&
             typedef allocator_type::const_reference const_reference;// const_reference	allocator_type::const_reference	for the default allocator: const value_type&
