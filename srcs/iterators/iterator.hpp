@@ -93,7 +93,7 @@ namespace ft {
 
 		reference operator*() const
 		{
-			return *(this->_p);
+			return (*_p);
 		};
 
 		MyIterator operator+ (difference_type n) const
@@ -322,6 +322,117 @@ class reverse_iterator : public iterator<typename iterator_traits<T>::iterator_c
 	{
 		return (rhs.base() - lhs.base());
 	};
+
+        template <class T, class node_pointer>
+        class mapiterator
+        {
+            public:
+                typedef typename iterator_traits<T>::difference_type  	difference_type;
+                typedef typename iterator_traits<T>::value_type  		value_type;
+                typedef typename iterator_traits<T>::pointer  			pointer;
+                typedef typename iterator_traits<T>::reference			reference;
+                typedef std::bidirectional_iterator_tag					iterator_category;
+            
+            private:
+                node_pointer	node;
+            public:
+                mapiterator() : node(NULL) {}
+                explicit mapiterator(node_pointer ptr) : node(ptr) {}
+                template <class Iter, class nodePointer>
+                mapiterator (const mapiterator<Iter, nodePointer>& it) : node(it.node) {}
+                node_pointer base() const
+                {
+                    return node;
+                }
+                reference operator*() const
+                {
+                    return node->_data;
+                }
+                pointer operator->() const
+                {
+                    return (&(node->_data));
+                }
+                mapiterator& operator++()
+                {
+                    node = successor();
+                    return (*this);
+                }
+                mapiterator operator++(int)
+                {
+                    mapiterator tmp(*this);
+                    ++(*this);
+                    return (tmp);
+                }
+                mapiterator& operator--()
+                {
+                    node = predecessor();
+                    return (*this);
+                }
+                mapiterator operator--(int)
+                {
+                    mapiterator tmp(*this);
+                    --(*this);
+                    return (tmp);
+                }
+            private:
+                node_pointer	successor()
+                {
+                    node_pointer	parent = node->_parent;
+                    node_pointer	tmp = node;
+                    if (tmp->_right)
+                    {
+                        tmp = tmp->_right;
+                        while (tmp->_left)
+                            tmp = tmp->_left;
+                        return tmp;
+                    }
+                    else
+                    {
+                        while (parent && tmp == parent->_right)
+                        {
+                            tmp = parent;
+                            parent = tmp->_parent;
+                        }
+                        return (parent);
+                    }
+                }
+                node_pointer	predecessor()
+                {
+                    node_pointer	parent = node->_parent;
+                    node_pointer	tmp = node;
+                    if (tmp->_left)
+                    {
+                        tmp = tmp->_left;
+                        while (tmp->_right)
+                            tmp = tmp->_right;
+                        return tmp;
+                    }
+                    else
+                    {
+                        while (parent && tmp == parent->_left)
+                        {
+                            tmp = parent;
+                            parent = tmp->_parent;
+                        }
+                        return (parent);
+                    }
+                }
+        };
+
+        template <class Iter, class node_pointer>
+        bool operator== (const mapiterator<Iter, node_pointer>& lhs,
+                        const mapiterator<Iter, node_pointer>& rhs)
+        {
+            return (lhs.base() == rhs.base());
+        }
+        template <class Iter, class node_pointer>
+        bool operator!= (const mapiterator<Iter, node_pointer>& lhs,
+                        const mapiterator<Iter, node_pointer>& rhs)
+        {
+            return (lhs.base() != rhs.base());
+        }
+
+
 
 }
 
