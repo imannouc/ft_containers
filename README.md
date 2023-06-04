@@ -52,6 +52,6 @@ to :
 make sure to compile again :
 
     make 
-    ./ft_containers std_output
+    ./ft_containers > std_output
 
     diff ft_output std_output
